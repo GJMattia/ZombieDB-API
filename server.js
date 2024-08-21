@@ -3,7 +3,10 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 const nodemailer = require("nodemailer");
+
+//Routers
 const userRouter = require("./routes/users");
+const accountRouter = require("./routes/accounts");
 
 const SERVERDEVPORT = 4741;
 const CLIENTDEVPORT = 5173;
@@ -27,7 +30,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/users", userRouter);
+
 const ensureLoggedIn = require("./config/ensureLoggedIn");
+
+app.use("/accounts", ensureLoggedIn, accountRouter);
 
 //Email Verification Code Configuration
 
