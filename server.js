@@ -51,8 +51,8 @@ app.post("/send-verification-email", (req, res) => {
   const mailOptions = {
     from: "zombiedbmailer@gmail.com",
     to: email,
-    subject: "Verify your account",
-    text: `Your verification code is ${code}`,
+    subject: "ZombieDB email verification code",
+    text: `Hello! This message is so you can verify your ZombieDB account, Your ZombieDB verification code is ${code}`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {

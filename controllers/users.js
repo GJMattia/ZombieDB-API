@@ -45,9 +45,9 @@ async function verify(req, res) {
     if (userEnteredCode == user.code) {
       user.verified = true;
       user.save();
-      res.json({ user: user, message: "Successfully Verified" });
+      res.json({ user: user, status: true });
     } else {
-      res.json({ user: user, message: "Wrong Code" });
+      res.json({ user: user, status: false });
     }
   } catch (err) {
     res.status(400).json("Bad Credentials");
