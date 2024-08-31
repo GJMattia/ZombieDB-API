@@ -8,4 +8,6 @@ router.get("/getaccount", accountCtrl.getAccount);
 
 router.put("/updatepp", accountCtrl.updatePP);
 
+router.put("/updateperks", accountCtrl.updatePerks);
+
 module.exports = router;

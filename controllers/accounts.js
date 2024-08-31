@@ -4,7 +4,21 @@ module.exports = {
   createAccount,
   getAccount,
   updatePP,
+  updatePerks,
 };
+
+async function updatePerks(req, res) {
+  try {
+    const account = await Account.findOne({ user: req.user._id }, { perks: 1 });
+    account.perks = req.body.perks;
+
+    await account.save();
+    res.json(account.perks);
+  } catch (error) {
+    console.error("Error updating perks", error);
+    res.status(500).json({ error: "error updating perks" });
+  }
+}
 
 async function updatePP(req, res) {
   try {
