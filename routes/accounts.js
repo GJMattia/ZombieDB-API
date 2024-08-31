@@ -6,4 +6,6 @@ router.post("/", accountCtrl.createAccount);
 
 router.get("/getaccount", accountCtrl.getAccount);
 
+router.put("/updatepp", accountCtrl.updatePP);
+
 module.exports = router;
