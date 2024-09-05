@@ -10,4 +10,6 @@ router.put("/updatepp", accountCtrl.updatePP);
 
 router.put("/updateperks", accountCtrl.updatePerks);
 
+router.put("/updatebio", accountCtrl.updateBio);
+
 module.exports = router;

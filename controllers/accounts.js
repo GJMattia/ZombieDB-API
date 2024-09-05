@@ -5,7 +5,21 @@ module.exports = {
   getAccount,
   updatePP,
   updatePerks,
+  updateBio,
 };
+
+async function updateBio(req, res) {
+  try {
+    const account = await Account.findOne({ user: req.user._id }, { bio: 1 });
+    account.bio = req.body.bio;
+
+    await account.save();
+    res.json(account.bio);
+  } catch (error) {
+    console.error("Error updating bio", error);
+    res.status(500).json({ error: "error updating bio" });
+  }
+}
 
 async function updatePerks(req, res) {
   try {
