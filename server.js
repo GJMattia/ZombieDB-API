@@ -7,6 +7,7 @@ const nodemailer = require("nodemailer");
 //Routers
 const userRouter = require("./routes/users");
 const accountRouter = require("./routes/accounts");
+const postRouter = require("./routes/posts");
 
 const SERVERDEVPORT = 4741;
 const CLIENTDEVPORT = 5173;
@@ -30,6 +31,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/users", userRouter);
+
+app.use("/posts", postRouter);
 
 const ensureLoggedIn = require("./config/ensureLoggedIn");
 
