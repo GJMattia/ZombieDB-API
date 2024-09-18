@@ -7,12 +7,13 @@ const post = new Schema(
     content: {
       type: String,
     },
-    rating: {
-      type: {
-        likes: { type: Number, default: 0 },
-        dislikes: { type: Number, default: 0 },
-      },
-      default: { likes: 0, dislikes: 0 },
+    likes: {
+      value: { type: Number, default: 0 },
+      users: { type: [String], default: [] },
+    },
+    dislikes: {
+      value: { type: Number, default: 0 },
+      users: { type: [String], default: [] },
     },
   },
   {

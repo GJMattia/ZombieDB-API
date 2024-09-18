@@ -18,22 +18,25 @@ async function deletePost(req, res) {
   }
 }
 
-async function dislikePost(req, res) {
-  try {
-    const post = await Post.findOne({ _id: req.body.id });
-    post.rating.dislikes = post.rating.dislikes - 1;
-    await post.save();
-    res.json(post);
-  } catch (error) {
-    console.error("error disliking post", error);
-    res.status(500).json({ error: "Failed disliking post" });
-  }
-}
-
 async function likePost(req, res) {
   try {
-    const post = await Post.findOne({ _id: req.body.id });
-    post.rating.likes = post.rating.likes + 1;
+    const post = await Post.findOne({ _id: req.body.id }).populate(
+      "user",
+      "name"
+    );
+
+    if (post.dislikes.users.includes(req.user._id)) {
+      post.dislikes.value -= 1;
+      post.dislikes.users = post.dislikes.users.filter(
+        (userId) => userId !== req.user._id
+      );
+    }
+
+    if (!post.likes.users.includes(req.user._id)) {
+      post.likes.value += 1;
+      post.likes.users.push(req.user._id);
+    }
+
     await post.save();
     res.json(post);
   } catch (error) {
@@ -42,9 +45,37 @@ async function likePost(req, res) {
   }
 }
 
+async function dislikePost(req, res) {
+  try {
+    const post = await Post.findOne({ _id: req.body.id }).populate(
+      "user",
+      "name"
+    );
+
+    if (post.likes.users.includes(req.user._id)) {
+      post.likes.value -= 1;
+      post.likes.users = post.likes.users.filter(
+        (userId) => userId !== req.user._id
+      );
+    }
+
+    if (!post.dislikes.users.includes(req.user._id)) {
+      post.dislikes.value += 1;
+      post.dislikes.users.push(req.user._id);
+    }
+
+    await post.save();
+    res.json(post);
+  } catch (error) {
+    console.error("error disliking post", error);
+    res.status(500).json({ error: "Failed disliking post" });
+  }
+}
+
 async function getPosts(req, res) {
   try {
-    const posts = await Post.find().limit(10);
+    const posts = await Post.find().limit(10).populate("user", "name");
+
     res.json(posts);
   } catch (error) {
     console.error("error getting posts", error);
@@ -59,7 +90,9 @@ async function createPost(req, res) {
       user: userID,
       content: req.body.content,
     });
-    res.json(newPost);
+
+    const returnPost = await newPost.populate("user", "name");
+    res.json(returnPost);
   } catch (error) {
     console.error("error creating post", error);
   }
