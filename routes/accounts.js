@@ -6,8 +6,6 @@ router.post("/", accountCtrl.createAccount);
 
 router.get("/getaccount", accountCtrl.getAccount);
 
-router.put("/updatepp", accountCtrl.updatePP);
-
 router.put("/updateperks", accountCtrl.updatePerks);
 
 router.put("/updatebio", accountCtrl.updateBio);

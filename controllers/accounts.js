@@ -3,7 +3,6 @@ const Account = require("../models/account");
 module.exports = {
   createAccount,
   getAccount,
-  updatePP,
   updatePerks,
   updateBio,
 };
@@ -31,18 +30,6 @@ async function updatePerks(req, res) {
   } catch (error) {
     console.error("Error updating perks", error);
     res.status(500).json({ error: "error updating perks" });
-  }
-}
-
-async function updatePP(req, res) {
-  try {
-    const account = await Account.findOne({ user: req.user._id }, { pic: 1 });
-    account.pic = req.body.pic;
-    await account.save();
-    res.json(account.pic);
-  } catch (error) {
-    console.error("Error changing profile picture", error);
-    res.status(500).json({ error: "error changing profile picture" });
   }
 }
 

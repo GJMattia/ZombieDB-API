@@ -10,7 +10,7 @@ module.exports = {
 
 async function deletePost(req, res) {
   try {
-    const post = await Post.findOneAndDelete({ _id: req.body.id });
+    await Post.findOneAndDelete({ _id: req.body.id });
     res.json(true);
   } catch (error) {
     console.error("error deleting post", error);
@@ -22,7 +22,7 @@ async function likePost(req, res) {
   try {
     const post = await Post.findOne({ _id: req.body.id }).populate(
       "user",
-      "name"
+      "name pic"
     );
 
     if (post.dislikes.users.includes(req.user._id)) {
@@ -49,7 +49,7 @@ async function dislikePost(req, res) {
   try {
     const post = await Post.findOne({ _id: req.body.id }).populate(
       "user",
-      "name"
+      "name pic"
     );
 
     if (post.likes.users.includes(req.user._id)) {
@@ -74,7 +74,7 @@ async function dislikePost(req, res) {
 
 async function getPosts(req, res) {
   try {
-    const posts = await Post.find().limit(10).populate("user", "name");
+    const posts = await Post.find().limit(10).populate("user", "name pic");
 
     res.json(posts);
   } catch (error) {
@@ -91,7 +91,7 @@ async function createPost(req, res) {
       content: req.body.content,
     });
 
-    const returnPost = await newPost.populate("user", "name");
+    const returnPost = await newPost.populate("user", "name pic");
     res.json(returnPost);
   } catch (error) {
     console.error("error creating post", error);

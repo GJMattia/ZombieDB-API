@@ -9,7 +9,20 @@ module.exports = {
   sendcode,
   resetPW,
   checkToken,
+  updatePP,
 };
+
+async function updatePP(req, res) {
+  try {
+    const user = await User.findOne({ _id: req.user._id });
+    user.pic = req.body.pic;
+    await user.save();
+    res.json(user.pic);
+  } catch (error) {
+    console.error("Error changing profile picture", error);
+    res.status(500).json({ error: "error changing profile picture" });
+  }
+}
 
 async function resetPW(req, res) {
   try {

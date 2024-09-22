@@ -9,5 +9,6 @@ router.put("/verify", usersCtrl.verify);
 router.put("/sendcode", usersCtrl.sendcode);
 router.put("/resetpw", usersCtrl.resetPW);
 router.get("/check-token", ensureLoggedIn, usersCtrl.checkToken);
+router.put("/updatepp", usersCtrl.updatePP);
 
 module.exports = router;

@@ -4,10 +4,6 @@ const Schema = mongoose.Schema;
 const account = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: "User" },
-    pic: {
-      type: Number,
-      default: 1,
-    },
     bio: {
       type: String,
       default: "Bio Here",
